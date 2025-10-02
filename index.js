@@ -1,8 +1,10 @@
 const express = require('express')
 const { Pool } = require("pg")
+const cors = require("cors")
 
 const app = express()
 
+app.use(cors())
 app.use(express.json()) // permite receber JSON no body
 app.use(express.urlencoded({ extended: true }))
 
@@ -28,4 +30,5 @@ app.post("/avaliacoes", async(req, res)=>{
       [nome, comentario, estrelas]
     );
     res.send("Obrigada pela sua avaliação!" + result.rows[0].id)
+
 })
