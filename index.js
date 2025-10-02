@@ -30,5 +30,23 @@ app.post("/avaliacoes", async(req, res)=>{
       [nome, comentario, estrelas]
     );
     res.send("Obrigada pela sua avaliação!" + result.rows[0].id)
+})
+
+app.delete("/avaliacoes/:id", async (req, res)=>{
+    const id = req.params.id
+    await pool.query("DELETE FROM avaliacoes WHERE id = $1", [id])
+    res.send("Avaliação deletada com sucesso!")
+})
+
+app.put("/avaliacoes/:id", async (req, res)=>{
+    const id = req.params.id
+    const { nome, comentario, estrelas } = req.body // exemplo de colunas
+
+    await pool.query(                                  
+        "UPDATE avaliacoes SET nome = $1, comentario = $2, estrelas = $3 WHERE id = $4",
+        [nome, comentario, estrelas, id]
+    );
+    
+    res.send("Avaliação atualizada com sucesso!")
 
 })
